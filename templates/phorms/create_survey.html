@@ -1,0 +1,45 @@
+{% extends "phorms/base.html" %}
+
+{% block title %}Phorms Create a form{% endblock %}
+
+{% block container %}
+
+<div class="content">
+  <div class="page-header">
+    <h1><small>To create a survey, enter a survey title, add questions and save</small></h1>
+  </div>
+  <div class="row">
+    <div class="span14">
+      
+      <form action="/login/" method="post">
+	
+	<fieldset>
+	  <!--<legend>{{ state }}</legend>-->
+	  
+	  <div class="clearfix">
+	    <label for="xlInput">Survey Title</label>
+	    <div class="input">
+	      <input class="xlarge" id="email" name="xlInput" size="200" 
+		     type="text" />
+	    </div>
+	  </div><!-- /clearfix -->
+	  <div class="actions">
+	    <input type="submit" class="btn primary" value="Add Question">&nbsp;
+	  </div>
+
+	  <div class="clearfix">
+	  
+	  </div><!-- /clearfix -->
+	  <div class="actions">
+	    <input type="submit" class="btn primary" value="Save Survey">&nbsp;
+	    <button type="reset" class="btn">Reset</button>
+	  </div>
+	  
+	</fieldset>
+      </form>
+         
+    </div>
+  </div>
+</div>
+
+{% endblock %}

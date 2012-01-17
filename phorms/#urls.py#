@@ -1,0 +1,16 @@
+from django.conf.urls.defaults import patterns, include, url
+
+from django.contrib import admin
+admin.autodiscover()
+
+urlpatterns = patterns('',
+
+    url(r'^login/$', 'phorms.views.login_user'),
+    url(r'^create/$', 'phorms.views.create_form'),fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    # Examples:
+    # url(r'^$', 'drchrono.views.home', name='home'),
+    # url(r'^drchrono/', include('drchrono.foo.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+)
