@@ -6,8 +6,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'drchrono.views.home', name='home'),
-    # url(r'^drchrono/', include('drchrono.foo.urls')),
-    url(r'^login/$', 'phorms.views.login_user'),
+    url(r'^phorms/', include('drchrono.phorms.urls')),
+    # url(r'^login/$', 'phorms.views.login_user'),
+    # url(r'^create/$', 'phorms.views.create_form'),                       
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
