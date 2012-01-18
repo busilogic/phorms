@@ -1,7 +1,10 @@
 {% extends "phorms/base.html" %}
 
 {% block title %}Phorms Create a form{% endblock %}
+{% block jscript  %}
 
+
+{% endblock %}
 {% block container %}
 
 <div class="content">
@@ -11,7 +14,7 @@
   <div class="row">
     <div class="span14">
       
-      <form action="/login/" method="post">
+      <form id="create_survey">
 	
 	<fieldset>
 	  <!--<legend>{{ state }}</legend>-->
@@ -19,22 +22,44 @@
 	  <div class="clearfix">
 	    <label for="xlInput">Survey Title</label>
 	    <div class="input">
-	      <input class="xlarge" id="email" name="xlInput" size="200" 
-		     type="text" />
+	      <input class="xlarge" name="xlInput" size="200" type="text" />
 	    </div>
 	  </div><!-- /clearfix -->
+
 	  <div class="actions">
-	    <input type="submit" class="btn primary" value="Add Question">&nbsp;
+	    <input type="button" id="btnAdd" class="btn primary" value="Add a free text question" />
+	    <input type="button" id="btnTF" class="btn primary" value="Add a true false question" />
 	  </div>
+
+
+	  <h3>True of false questions</h3>
+	  <div class="clearfix" id="tfinput1">
+	    <label for="xlInput">True or False</label>
+	    <div class="input">
+	      <input class="xlarge" id="tfquestion" size="200" type="text" />
+	    </div>
+	    
+	  </div><!-- /clearfix -->
+
+	  <hr/>
+	  <h3>Free text questions</h3>
+	  <div class="clearfix" id="input1">
+	    <label for="xlInput">Free text Question</label>
+	    <div class="input">
+	      <input class="xlarge" id="question" name="xlInput" size="200" 
+		     type="text" />
+
+	    </div>
+	  </div><!-- /clearfix -->
 
 	  <div class="clearfix">
 	  
-	  </div><!-- /clearfix -->
+	  </div><!-- /clearfix 
 	  <div class="actions">
-	    <input type="submit" class="btn primary" value="Save Survey">&nbsp;
+	    <input type="button" class="btn primary" value="Save Survey">&nbsp;
 	    <button type="reset" class="btn">Reset</button>
 	  </div>
-	  
+	  -->
 	</fieldset>
       </form>
          
@@ -42,4 +67,39 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function() {
+
+  $('#btnAdd').click(function() {
+  var num     = $('#question').length; // # of input fields we currently have
+  var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+  
+  // create the new element via clone(), and manipulate it's ID using newNum value
+  var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+  
+  // manipulate the name/id values of the input inside the new element
+  newElem.children(':first').attr('id', 'name' + newNum).attr('name', 'name' + newNum);
+ 
+  // insert the new element after the last "duplicatable" input field
+  $('#input' + num).after(newElem);
+
+  });
+
+ $('#btnTF').click(function() {
+  var num     = $('#tfquestion').length; // # of input fields we currently have
+  var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+  
+  // create the new element via clone(), and manipulate it's ID using newNum value
+  var newElem = $('#tfinput' + num).clone().attr('id', 'input' + newNum);
+  
+  // manipulate the name/id values of the input inside the new element
+  newElem.children(':first').attr('id', 'name' + newNum).attr('name', 'name' + newNum);
+ 
+  // insert the new element after the last "duplicatable" input field
+  $('#input' + num).after(newElem);
+
+  });
+  
+  });
+</script>
 {% endblock %}
