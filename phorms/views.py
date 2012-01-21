@@ -1,6 +1,14 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404, render_to_response
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
+from django.template import RequestContext
 from django.contrib.auth import authenticate, login
 
+# Show list of forms created so far no matter who created them
+def list_form(request):
+    c = {}
+    return render_to_response("phorms/list.html", context_instance=RequestContext(request))
+    
 def add_question(request):
     if request.method == 'POST': # If the form has been submitted...
         form = SurveyForm(request.POST) # A form bound to the POST data
@@ -14,8 +22,9 @@ def add_question(request):
     return render_to_response('contact.html', {'form': form,})
     
 
+    
 def create_form(request):
-    return render_to_response('phorms/create_survey.html')
+    return render_to_response('phorms/create_survey.html', context_instance=RequestContext(request))
 
 def login_user(request):
     state = "Please log in ..."
@@ -38,4 +47,5 @@ def login_user(request):
         else:
             state = "Incorrect username and/or password!"
 
-    return render_to_response('phorms/auth.html', {'state':state, 'username': username})
+    return render_to_response('phorms/auth.html', {'state':state, 'username': username},
+                              context_instance=RequestContext(request))

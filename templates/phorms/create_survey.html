@@ -1,10 +1,8 @@
 {% extends "phorms/base.html" %}
 
 {% block title %}Phorms Create a form{% endblock %}
-{% block jscript  %}
 
 
-{% endblock %}
 {% block container %}
 
 <div class="content">
@@ -14,8 +12,8 @@
   <div class="row">
     <div class="span14">
       
-      <form id="create_survey">
-	
+      <form id="create_survey" action="/phorms/list/" method="post">
+	{% csrf_token %}
 	<fieldset>
 	  <!--<legend>{{ state }}</legend>-->
 	  
@@ -40,6 +38,11 @@
 		     type="text" />
 	    </div>
 	  </div><!-- /clearfix -->
+	 
+	  <!-- Save Form -->
+	  <div class="actions">
+	    <input type="submit" id="btnSave" class="btn primary" value="Save" />
+	  </div>
 	
 	</fieldset>
       </form>         

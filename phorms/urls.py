@@ -7,10 +7,8 @@ urlpatterns = patterns('',
 
     url(r'^login/$', 'phorms.views.login_user'),
     url(r'^create/$', 'phorms.views.create_form'),
-    # Examples:
-    # url(r'^$', 'drchrono.views.home', name='home'),
-    # url(r'^drchrono/', include('drchrono.foo.urls')),
-
+    url(r'^list/$', 'phorms.views.list_form'),
+                       
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 )
