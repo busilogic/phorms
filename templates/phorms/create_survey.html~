@@ -2,6 +2,7 @@
 
 {% block title %}Phorms Create a form{% endblock %}
 
+
 {% block container %}
 
 <div class="content">
@@ -11,35 +12,77 @@
   <div class="row">
     <div class="span14">
       
-      <form action="/login/" method="post">
-	
+      <form id="create_survey" method="post">
+	{% csrf_token %}
 	<fieldset>
 	  <!--<legend>{{ state }}</legend>-->
 	  
 	  <div class="clearfix">
 	    <label for="xlInput">Survey Title</label>
 	    <div class="input">
-	      <input class="xlarge" id="email" name="xlInput" size="200" 
-		     type="text" />
+	      <input class="span8" name="xlInput" size="200" type="text" />
 	    </div>
 	  </div><!-- /clearfix -->
-	  <div class="actions">
-	    <input type="submit" class="btn primary" value="Add Question">&nbsp;
-	  </div>
 
-	  <div class="clearfix">
-	  
-	  </div><!-- /clearfix -->
 	  <div class="actions">
-	    <input type="submit" class="btn primary" value="Save Survey">&nbsp;
-	    <button type="reset" class="btn">Reset</button>
-	  </div>
-	  
+	    <input type="button" id="btnAdd" class="btn primary" 
+		   value="Add question" />
+	    <button type="reset" id="btnDel" class="btn">Remove</button>
+
+	  </div><!-- /actions-->
+	 
+	  <div class="clearfix" id="input1">
+	    <label for="xlInput" class="quest">Question</label>
+	    <div class="input">
+	      <input class="span8" id="question1" name="xlInput" size="200" 
+		     type="text" />&nbsp;<b>?</b>
+	    </div>
+	  </div><!-- /clearfix -->
+	 
+	  <!-- Save Form -->
+	  <div class="actions">
+	    <!--<input type="button" id="btnPreview" class="btn secondary" value="Preview" />-->
+	    <input type="submit" id="btnSave" class="btn primary" value="Save" />	    
+	  </div>	
 	</fieldset>
       </form>
-         
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+  
+  //Add a question 
+  $('#btnAdd').click(function() {
+  
+  var num     = $('.quest').length; // # of input fields we currently have
 
+  var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+  console.log("New num " + newNum);
+  var inputId = $('#input1').attr('id');
+  console.log("Getting id of input element:" + inputId );
+
+  // create the new element via clone(), and manipulate it's ID using newNum value
+  var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+  // manipulate the name/id values of the input inside the new element
+  newElem.children(':first').attr('id', 'question' + newNum).attr('name', 'name' + newNum);
+  
+  // insert the new element after the last "duplicatable" input field
+  $('#input' + num).after(newElem);
+
+  });
+
+  //Remove the last added question
+  $('#btnDel').click(function() {
+  var num = $('.quest').length; // how many duplicatable input fields 
+  console.log("Total # of questions: " + num );
+  if(num > 1 ){  
+    $('#input' + num).remove();     // remove the last element 
+  }
+   
+  });
+  
+    
+  });
+</script>
 {% endblock %}

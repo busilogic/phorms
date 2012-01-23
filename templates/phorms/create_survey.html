@@ -12,7 +12,7 @@
   <div class="row">
     <div class="span14">
       
-      <form id="create_survey" action="/phorms/list/" method="post">
+      <form id="create_survey" method="post">
 	{% csrf_token %}
 	<fieldset>
 	  <!--<legend>{{ state }}</legend>-->
@@ -20,7 +20,7 @@
 	  <div class="clearfix">
 	    <label for="xlInput">Survey Title</label>
 	    <div class="input">
-	      <input class="span8" name="xlInput" size="200" type="text" />
+	      <input class="span8" name="xlInput" size="200" type="text" value="{{ form.title.value }}"/>
 	    </div>
 	  </div><!-- /clearfix -->
 
@@ -34,18 +34,19 @@
 	  <div class="clearfix" id="input1">
 	    <label for="xlInput" class="quest">Question</label>
 	    <div class="input">
+	      
 	      <input class="span8" id="question1" name="xlInput" size="200" 
-		     type="text" />
+		     type="text" />&nbsp;<b>?</b>
 	    </div>
 	  </div><!-- /clearfix -->
 	 
 	  <!-- Save Form -->
 	  <div class="actions">
-	    <input type="submit" id="btnSave" class="btn primary" value="Save" />
-	  </div>
-	
+	    <!--<input type="button" id="btnPreview" class="btn secondary" value="Preview" />-->
+	    <input type="submit" id="btnSave" class="btn primary" value="Save" />	    
+	  </div>	
 	</fieldset>
-      </form>         
+      </form>
     </div>
   </div>
 </div>
