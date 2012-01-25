@@ -1,8 +1,7 @@
 from phorms.models import Survey, SurveyItem
 from django.contrib import admin
 
-
-class SurveyItemInline(admin.StackedInline):
+class SurveyItemInline(admin.TabularInline):
     model = SurveyItem
     extra = 3
 
@@ -15,4 +14,5 @@ class SurveyAdmin(admin.ModelAdmin):
     inlines = [SurveyItemInline]
 
 admin.site.register(Survey, SurveyAdmin)
+
 

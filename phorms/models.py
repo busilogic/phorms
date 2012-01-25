@@ -20,7 +20,8 @@ class Survey(models.Model):
 class SurveyItem(models.Model):
     survey = models.ForeignKey(Survey)
     question = models.CharField(max_length=200)
-    
+    is_boolean = models.BooleanField()
+
 class Choice(models.Model):
     surveyItem = models.ForeignKey(SurveyItem)
     choice = models.CharField(max_length=200)
