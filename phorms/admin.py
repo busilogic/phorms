@@ -15,4 +15,3 @@ class SurveyAdmin(admin.ModelAdmin):
 
 admin.site.register(Survey, SurveyAdmin)
 
-
