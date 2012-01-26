@@ -12,8 +12,18 @@
         </div>
         <div class="row">
           <div class="span14">
-            {% for quest in survey.survey_item %}
-            {{ quest.id }}
+
+            {% for si in surveyitem %}
+            <ul>
+              <li>{{ si.question }}? 
+                {% if si.is_boolean %}
+                <input type="checkbox" value="" disabled="true">
+                {% else %}
+                <input type="text" value="" disabled="true">
+                {% endif %}
+              </li>
+            </ul>
+            <br/>
             {% endfor %}
           </div>
         </div>

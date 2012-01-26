@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
-from drchrono.phorms.models import Survey, SurveyForm
+from drchrono.phorms.models import Survey, SurveyItem
 
 # Show list of forms created so far no matter who created them
 def list_form(request):
@@ -14,12 +14,11 @@ def list_form(request):
 # Show survey details
 def detail(request, survey_id):
     # Get Survey
-    try:
-        s = Survey.objects.get(pk=survey_id)
-    except Survey.DoesNotExist:
-        raise Http404
-
-    return render_to_response('phorms/detail.html', {'survey': s })
+    s = get_object_or_404(Survey, pk=survey_id)
+    si = SurveyItem.objects.filter(survey = survey_id)
+    
+    return render_to_response('phorms/detail.html',
+                              {'survey': s , 'surveyitem':si})
 #    return HttpResponse("You're looking at survey %s" % survey_id)
 
 # Handle login
