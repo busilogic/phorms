@@ -8,7 +8,12 @@ from drchrono.phorms.models import Survey, SurveyForm
 def list_form(request):
     all_surveys = Survey.objects.all()
     c = {'surveys': all_surveys}
-    return render_to_response("phorms/list.html", c, context_instance=RequestContext(request))
+    return render_to_response("phorms/list.html",
+                              c, context_instance=RequestContext(request))
+
+# Show survey details
+def detail(request, survey_id):
+    return HttpResponse("You're looking at survey %s" % survey_id)
 
 # Handle login
 def login_user(request):

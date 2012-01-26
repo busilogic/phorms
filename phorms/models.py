@@ -1,12 +1,7 @@
-from django.contrib import admin
 from django.db import models
 from django import forms
 
 
-def send_preview(modeladmin, request, queryset):
-    print 'Inside send preview email'
-    for obj in queryset:
-        print(obj)
 
 #Forms
 class SurveyForm(forms.Form):
