@@ -13,7 +13,14 @@ def list_form(request):
 
 # Show survey details
 def detail(request, survey_id):
-    return HttpResponse("You're looking at survey %s" % survey_id)
+    # Get Survey
+    try:
+        s = Survey.objects.get(pk=survey_id)
+    except Survey.DoesNotExist:
+        raise Http404
+
+    return render_to_response('phorms/detail.html', {'survey': s })
+#    return HttpResponse("You're looking at survey %s" % survey_id)
 
 # Handle login
 def login_user(request):

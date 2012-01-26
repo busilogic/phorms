@@ -1,0 +1,23 @@
+<!-- Show survey details  -->
+{% extends "phorms/base.html" %}
+
+{% block title %}Phorms List{% endblock %}
+
+{% block container %}
+
+      <div class="content">
+        <div class="page-header">
+          <h2>{{ survey.title }}</h2>
+          <small>{{ survey.description}} </small>
+        </div>
+        <div class="row">
+          <div class="span14">
+            {% for quest in survey.survey_item %}
+            {{ quest.id }}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}
