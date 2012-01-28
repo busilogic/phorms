@@ -1,0 +1,33 @@
+<!-- Show survey details  -->
+{% extends "admin/base_site.html" %}
+
+{% block title %}Phorms List{% endblock %}
+
+{% block container %}
+
+      <div class="content">
+        <div class="page-header">
+          <h2>{{ survey.title }}</h2>
+          <small>{{ survey.description}} </small>
+        </div>
+        <div class="row">
+          <div class="span14">
+
+            {% for si in surveyitem %}
+            <ul>
+              <li>{{ si.question }}? 
+                {% if si.is_boolean %}
+                <input type="checkbox" value="" disabled="true">
+                {% else %}
+                <input type="text" value="" disabled="true">
+                {% endif %}
+              </li>
+            </ul>
+            <br/>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}

@@ -1,23 +1,26 @@
 #admin.py
-from drchrono.phorms.models import Survey, SurveyItem
+from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
+from django.http import HttpResponseRedirect
 from django.contrib import admin
 from django.core.mail import EmailMessage
+from drchrono.phorms.models import Survey, SurveyItem
 
+# Before emailing form, take user to preview page
 # Construct rest url /phorms/id/view and email that link
 # to specified user using gmail as SMTP
-def email_the_client(modeladmin, request, queryset):
+def email_form(modeladmin, request, queryset):
     print 'Inside send preview email'
-    email_the_client.short_description = 'Send Email'
-    email_the_client.allow_tags = True
+    email_form.short_description = 'Email phorm'
+    email_form.allow_tags = True
 
     # Get Email address first
-    email_address = request.POST['email_address']
+    #email_address = request.POST['email_address']
     for obj in queryset:
         print 'Id of %s is %d' % (obj, obj.id)
-        url = "http://localhost:8000/phorms/survey/%d/" % obj.id        
-        send_email_helper(url, email_address)
-    # Print id of email address
-    #print 'request %s ' % request.POST['email_address']
+        url = "http://localhost:8000/phorms/survey/%d/" % obj.id
+        return HttpResponseRedirect("/phorms/survey/%d/" % obj.id)
+        #send_email_helper(url, email_address)
 
 
 # Take Survey URL and send email 
@@ -33,9 +36,8 @@ class SurveyItemInline(admin.TabularInline):
     model = SurveyItem
     extra = 3
 
-class SurveyAdmin(admin.ModelAdmin):
-    actions = [email_the_client]
 
+class SurveyAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Survey Title', {'fields': ['title']}),
         ('describe', {'fields': ['description']}),
@@ -44,5 +46,7 @@ class SurveyAdmin(admin.ModelAdmin):
     inlines = [SurveyItemInline]
 
 
+# Register site with admin
 admin.site.register(Survey, SurveyAdmin)
 
+admin.site.add_action(email_form, 'Email form')
