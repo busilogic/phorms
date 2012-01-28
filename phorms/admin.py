@@ -1,5 +1,5 @@
 #admin.py
-from phorms.models import Survey, SurveyItem
+from drchrono.phorms.models import Survey, SurveyItem
 from django.contrib import admin
 from django.core.mail import EmailMessage
 

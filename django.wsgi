@@ -1,8 +1,8 @@
 import os, sys
 
-path = '/var/www'
+path = '/home/kman/public_html'
 if path not in sys.path:
-    sys.path.insert(0, '/var/www')
+    sys.path.insert(0, '/home/kman/public_html')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'drchrono.settings'
 
