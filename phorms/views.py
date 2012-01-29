@@ -14,6 +14,35 @@ def list_form(request):
     return render_to_response("phorms/list.html",
                               c, context_instance=RequestContext(request))
 
+# Preview page
+def preview(request, survey_id):
+    if request.POST:
+        print "Posting something from detail page %s" % survey_id
+        if 'send_email' in request.POST:
+            complete_url = request.build_absolute_uri()
+            
+            base_url = complete_url[0:complete_url.find(request.get_full_path())]
+            print "Base url: {0}".format(base_url)
+            url = "%s/phorms/survey/%s/" % (base_url, survey_id)
+            #url = "http://localhost:8000/phorms/survey/%s/" % survey_id
+            email_address = request.POST.get('email_address')
+            print "Send email to {0} with url {1}".format(email_address, url)
+            #send_email_helper(url, email_address)
+            
+        return HttpResponseRedirect("/admin/phorms/survey/")
+
+    if request.GET:
+        print "Get request -- don't show actions or preview header"
+    # Get Survey
+    s = get_object_or_404(Survey, pk=survey_id)
+    si = SurveyItem.objects.filter(survey = survey_id)
+    
+    return render_to_response('phorms/preview.html',
+                              {'survey': s , 'surveyitem':si},
+                              context_instance=RequestContext(request))
+
+
+    
 # Show survey details
 def detail(request, survey_id):
     if request.POST:
@@ -24,9 +53,11 @@ def detail(request, survey_id):
             email_address = request.POST.get('email_address')
             print "Send email to {0} with url {1}".format(email_address, url)
             send_email_helper(url, email_address)
-
+            
         return HttpResponseRedirect("/admin/phorms/survey/")
 
+    if request.GET:
+        print "Get request -- don't show actions or preview header"
     # Get Survey
     s = get_object_or_404(Survey, pk=survey_id)
     si = SurveyItem.objects.filter(survey = survey_id)
