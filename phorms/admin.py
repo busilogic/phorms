@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib import admin
-from django.core.mail import EmailMessage
 from drchrono.phorms.models import Survey, SurveyItem
 
 # Before emailing form, take user to preview page
@@ -22,14 +21,6 @@ def email_form(modeladmin, request, queryset):
         return HttpResponseRedirect("/phorms/survey/%d/" % obj.id)
         #send_email_helper(url, email_address)
 
-
-# Take Survey URL and send email 
-def send_email_helper(survey_url, email_address):
-    email = EmailMessage('Form to print and bring', survey_url, to=[email_address])
-    try:
-        email.send()
-    except:
-        print "Error sending email message"
 
 #Classes
 class SurveyItemInline(admin.TabularInline):

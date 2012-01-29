@@ -1,7 +1,17 @@
 <!-- A form that will email the client -->
 
+<div class="clearfix">
+
 <div class="actions">
-<label>Email Address:</label>
-<input type="email" value="" >
-<input type="submit" class="btn primary" value="Send email"/>
+<form method="post">
+  {% csrf_token %}
+  <label>email form to&nbsp; </label>
+  <input type="email" value="" name="email_address">
+  <input type="submit" class="btn primary" value="Send email" name="send_email"/>
+  <input type="submit" class="btn" value="Cancel" name="back_to_admin"/>
+</form>
 </div>
+
+</div><!-- /clearfix -->
+
+
