@@ -1,33 +1,12 @@
 <!-- Show survey details  -->
 {% extends "phorms/base.html" %}
 
-{% block title %}Phorms List{% endblock %}
+{% block title %}Phorm Details{% endblock %}
 
 {% block container %}
+<center><h1>Preview</h1></center>
 
-      <div class="content">
-        <div class="page-header">
-          <h2>{{ survey.title }}</h2>
-          <small>{{ survey.description}} </small>
-        </div>
-        <div class="row">
-          <div class="span14">
-
-            {% for si in surveyitem %}
-            <ul>
-              <li>{{ si.question }}? 
-                {% if si.is_boolean %}
-                <input type="checkbox" value="" disabled="true">
-                {% else %}
-                <input type="text" value="" disabled="true">
-                {% endif %}
-              </li>
-            </ul>
-            <br/>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
+{% include "phorms/view_survey.html" %}
+{% include "phorms/email_client.html" %}
 
 {% endblock %}
