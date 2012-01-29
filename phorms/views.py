@@ -27,7 +27,7 @@ def preview(request, survey_id):
             #url = "http://localhost:8000/phorms/survey/%s/" % survey_id
             email_address = request.POST.get('email_address')
             print "Send email to {0} with url {1}".format(email_address, url)
-            #send_email_helper(url, email_address)
+            send_email_helper(url, email_address)
             
         return HttpResponseRedirect("/admin/phorms/survey/")
 
