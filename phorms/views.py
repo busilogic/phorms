@@ -4,8 +4,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
-from drchrono.phorms.models import Survey, SurveyItem
-
+from drchrono.phorms.models import Survey, SurveyItem, Choice
 
 # Show list of forms created so far no matter who created them
 def list_form(request):
@@ -45,26 +44,29 @@ def preview(request, survey_id):
     
 # Show survey details
 def detail(request, survey_id):
-    if request.POST:
-        print "Posting something from detail page %s" % survey_id
-        if 'send_email' in request.POST:
-            print "Send email button clicked"
-            url = "http://localhost:8000/phorms/survey/%s/" % survey_id
-            email_address = request.POST.get('email_address')
-            print "Send email to {0} with url {1}".format(email_address, url)
-            send_email_helper(url, email_address)
-            
-        return HttpResponseRedirect("/admin/phorms/survey/")
-
-    if request.GET:
-        print "Get request -- don't show actions or preview header"
     # Get Survey
     s = get_object_or_404(Survey, pk=survey_id)
-    si = SurveyItem.objects.filter(survey = survey_id)
-    
-    return render_to_response('phorms/detail.html',
-                              {'survey': s , 'surveyitem':si},
-                              context_instance=RequestContext(request))
+    si_lst = SurveyItem.objects.filter(survey = survey_id)
+    if request.POST:
+        print "Posting something from detail page %s" % survey_id
+        if 'save_survey' in request.POST:
+            print "Need to save that survey"
+            print request.POST
+            # Get si_<si.id> variable from dict
+            for si in si_lst:
+                form_name = "si_%d" % si.id
+                print request.POST.get(form_name)
+                if si.is_boolean:
+                    if 'True' == request.POST.get(form_name): 
+                        c = Choice( surveyItem=si,
+                                option='True')
+                    else:
+                        c = Choice( surveyItem=si, option = 'False')
+
+                else:
+                    c = Choice( surveyItem=si, choice= request.POST.get(form_name))
+                    c.save()
+    return render_to_response("phorms/detail.html",{'survey':s,'surveyitem':si_lst },context_instance=RequestContext(request))
 
 
 # Take Survey URL and send email 

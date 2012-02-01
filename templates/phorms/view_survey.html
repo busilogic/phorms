@@ -5,19 +5,25 @@
   </div>
   <div class="row">
     <div class="span14">
-      
-      {% for si in surveyitem %}
-      <ul>
-        <li>{{ si.question }}? 
-          {% if si.is_boolean %}
-          <input type="checkbox" value="" disabled="true">
-          {% else %}
-          <input type="text" value="" disabled="true">
-          {% endif %}
-        </li>
-      </ul>
-      <br/>
-      {% endfor %}
-    </div>
-  </div>
-
+      <div class="clearfix">
+        <ul>
+          {% for si in surveyitem %}        
+          <li>            
+            {% if si.is_boolean %}
+            <input type="checkbox" name="si_{{si.id}}" value="True"> 
+            {{ si.question }}?</input>            
+            {% else %}
+            {{ si.question }}?
+            <input type="text" name="si_{{si.id}}" value="" > 
+            {% endif %}
+          </li>
+          <br/>
+          {% endfor %}
+        </ul>
+        <div class="actions">
+          <input type="submit" class="btn primary" name="save_survey" value="Save" />
+          <input type="submit" name="cancel" class="btn" value="cancel" />
+        </div>
+      </div><!-- /clearfix -->
+    </div><!-- /span -->
+  </div><!-- /row -->

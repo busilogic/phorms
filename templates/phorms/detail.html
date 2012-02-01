@@ -5,6 +5,11 @@
 
 {% block container %}
 <div class="content">
-{% include "phorms/view_survey.html" %}
+
+<form method="post" id="survey_form" >
+  {% csrf_token %}
+  {% include "phorms/view_survey.html" %}  
+</form>
+
 </div><!-- /content -->
 {% endblock %}
