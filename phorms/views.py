@@ -2,12 +2,14 @@
 from django.db.models import Count, Avg
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
-from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from drchrono.phorms.models import Survey, SurveyItem, Choice
 
+    
 # Show list of forms created so far no matter who created them
 def list_form(request):
     all_surveys = Survey.objects.all()
@@ -77,6 +79,7 @@ def results(request, survey_id):
                               context_instance=RequestContext(request))
     
 # Show survey details
+@login_required
 def detail(request, survey_id):
     # Get Survey
     s = get_object_or_404(Survey, pk=survey_id)
@@ -111,24 +114,28 @@ def send_email_helper(survey_url, email_address):
         email.send()
     except:
         print "Error sending email message"
-        
 
+        
 # Handle login
 def login_user(request):
-    state = "Please log in ..."
+    state = ''
     username = ''
     password = ''
 
     if request.POST:
+        print request.POST
         username = request.POST.get('username')
-        password = request.POST.get('password')
-
+        password = request.POST.get('pwd')
+        print "Username: %s  Password %s" %(username, password)
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
+                print "getting ready to login user"
                 login(request, user)
                 state = "Login successful!"
-
+                next_url = request.POST
+                print "Next url %s" %next_url
+                return HttpResponseRedirect('/')
             else:
                 state = "login inactive, please try logging in again"
 

@@ -89,17 +89,32 @@
             survey</a></li>
             -->
             <!--<li><a href="#contact">Contact</a></li>-->
+                      
           </ul>
+          <div class="pull-right">
+          {% if not user.is_authenticated %}
+          <a href="/accounts/login/?next=/phorms/list">login</a> | <a href="/accounts/register/">register</a>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          <a href="/accounts/logout/?next=/admin/">logout</a>
+          {% endif %}
+          </div>
          <!-- <form action="" class="pull-right">
             <input class="input-small" type="text" placeholder="Username">
             <input class="input-small" type="password" placeholder="Password">
             <button class="btn" type="submit">Sign in</button>
           </form>-->
+         
         </div>
       </div>
     </div>
 
     <div class="container">
+
+   
+
+
 
       {% block container %}
 

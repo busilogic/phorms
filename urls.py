@@ -7,14 +7,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
                         {'document_root': settings.MEDIA_ROOT }),
-    
-    # Examples:
-    # url(r'^$', 'drchrono.views.home', name='home'),
-    url(r'^phorms/', include('drchrono.phorms.urls')),
-    # url(r'^login/$', 'phorms.views.login_user'),
-    # url(r'^create/$', 'phorms.views.create_form'),                       
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+
+    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^phorms/', include('drchrono.phorms.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
