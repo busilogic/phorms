@@ -45,6 +45,10 @@ def preview(request, survey_id):
 
 # Show survey results
 def results(request, survey_id):
+    # Only show this page to authenticated users
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/admin')
+    
     s = get_object_or_404(Survey, pk=survey_id)
     si_list = SurveyItem.objects.filter(survey=survey_id)
     Choice.objects.annotate().filter()
