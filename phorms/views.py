@@ -1,9 +1,11 @@
 # phorm views
+from django.db.models import Count, Avg
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
+from django.db.models import Q
 from drchrono.phorms.models import Survey, SurveyItem, Choice
 
 # Show list of forms created so far no matter who created them
@@ -41,6 +43,34 @@ def preview(request, survey_id):
                               context_instance=RequestContext(request))
 
 
+# Show survey results
+def results(request, survey_id):
+    s = get_object_or_404(Survey, pk=survey_id)
+    si_list = SurveyItem.objects.filter(survey=survey_id)
+    Choice.objects.annotate().filter()
+    #print "SI LIST: %s " % si_list
+    choice_dict = {}
+    for si in si_list:        
+        choice = Choice.objects.filter(surveyItem=si.id)
+        if si.is_boolean:
+            c = Choice.objects.filter(surveyItem=si.id).annotate().filter(option='True').aggregate(Count('option'))
+            
+            cn = Choice.objects.filter(surveyItem=si.id).annotate().filter(option='False').aggregate(Count('option'))
+            choice_dict['si_%d' %si.id] = {'si_q': si.question,
+                             'si_y': c['option__count'],
+                             'si_n': cn['option__count'],
+                             }            
+
+        else:
+            print "Choice is integer for si id %d" % si.id
+            c = Choice.objects.filter(surveyItem=si.id).aggregate(Avg('choice'))
+            print c['choice__avg']
+            choice_dict['si_%d' % si.id] = {'si_q': si.question, 'si_avg': c['choice__avg']}
+    print choice_dict
+
+    return render_to_response('phorms/results.html',
+                              {'survey': s, "si_list": si_list, "choice_dict": choice_dict},
+                              context_instance=RequestContext(request))
     
 # Show survey details
 def detail(request, survey_id):
@@ -63,9 +93,9 @@ def detail(request, survey_id):
                     else:
                         c = Choice( surveyItem=si, option = 'False')
 
-                else:
+                else:                    
                     c = Choice( surveyItem=si, choice= request.POST.get(form_name))
-                    c.save()
+                c.save()
     return render_to_response("phorms/detail.html",{'survey':s,'surveyitem':si_lst },context_instance=RequestContext(request))
 
 

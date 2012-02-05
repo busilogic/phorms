@@ -1,0 +1,42 @@
+<!-- Show results of forms in database -->
+{% extends "phorms/base.html" %}
+
+{% block title %}Phorms Results{% endblock %}
+
+{% block container %}
+
+      <div class="content">
+        <div class="page-header">
+          <h1><small>Results of survey: {{ survey.title }}</small></h1>
+        </div>
+        <div class="row">
+          <div class="span14">
+            <table lass="table table-striped table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th># of Yes</th>
+                  <th># of Nos</th>
+                  <th>Average</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for key,value in choice_dict.items %}
+                <tr>                
+                  <td>
+                  {{ value.si_q }}</td>
+                  <td>{{ value.si_y}}</td>
+                  <td>{{ value.si_n}}</td>
+                  <td>{{ value.si_avg }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+                        
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}

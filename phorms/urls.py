@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^preview/survey/(?P<survey_id>\d+)/$',
         'drchrono.phorms.views.preview'),                       
 
+    url(r'^results/(?P<survey_id>\d+)/$', 'drchrono.phorms.views.results'),
 )

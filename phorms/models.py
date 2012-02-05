@@ -35,6 +35,3 @@ class Choice(models.Model):
     def __unicode__(self):
         return "Survey item: %s choice: %s option: %s" %(self.surveyItem, self.choice, self.option)
         
-class ChoiceForm(ModelForm):
-    class Meta:
-        model = Choice
