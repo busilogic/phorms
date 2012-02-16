@@ -18,6 +18,10 @@ def email_form(modeladmin, request, queryset):
         #print 'Id of %s is %d' % (obj, obj.id)        
         return HttpResponseRedirect("/phorms/preview/survey/%d/" % obj.id)
 
+# View Results of survey
+def survey_results(modelAdmin, request, queryset):
+    for obj in queryset:
+        return HttpResponseRedirect("/phorms/results/%d" % obj.id)
 
 #Classes
 class SurveyItemInline(admin.TabularInline):
@@ -38,3 +42,4 @@ class SurveyAdmin(admin.ModelAdmin):
 admin.site.register(Survey, SurveyAdmin)
 
 admin.site.add_action(email_form, 'Email form')
+admin.site.add_action(survey_results, 'View Results')

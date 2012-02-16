@@ -59,16 +59,20 @@ def results(request, survey_id):
     for si in si_list:        
         choice = Choice.objects.filter(surveyItem=si.id)
         if si.is_boolean:
-            c = Choice.objects.filter(surveyItem=si.id).annotate().filter(option='True').aggregate(Count('option'))
-            
-            cn = Choice.objects.filter(surveyItem=si.id).annotate().filter(option='False').aggregate(Count('option'))
+            q1 = choice.filter(option__exact='True')
+            #q1 = Choice.objects.filter(surveyItem=si.id, option='True')
+            #q2 = q1.annotate().filter(option='True')
+            c = q1.aggregate(Count('option'))
+            print "True options %s" %c
+
+            # Save a query, subtract total - yess
+            nos = len(choice) - c['option__count']
+            print "Nos %s" %nos            
             choice_dict['si_%d' %si.id] = {'si_q': si.question,
                              'si_y': c['option__count'],
-                             'si_n': cn['option__count'],
+                             'si_n': nos,
                              }            
-
         else:
-            print "Choice is integer for si id %d" % si.id
             c = Choice.objects.filter(surveyItem=si.id).aggregate(Avg('choice'))
             print c['choice__avg']
             choice_dict['si_%d' % si.id] = {'si_q': si.question, 'si_avg': c['choice__avg']}
@@ -79,19 +83,19 @@ def results(request, survey_id):
                               context_instance=RequestContext(request))
     
 # Show survey details
-@login_required
+#@login_required
 def detail(request, survey_id):
-    # Get Survey
+
     s = get_object_or_404(Survey, pk=survey_id)
     si_lst = SurveyItem.objects.filter(survey = survey_id)
+
     if request.POST:
         print "Posting something from detail page %s" % survey_id
         if 'save_survey' in request.POST:
-            print "Need to save that survey"
-            print request.POST
-            # Get si_<si.id> variable from dict
             for si in si_lst:
+                print si
                 form_name = "si_%d" % si.id
+                c = Choice()   # Gotta save (i'm feeling java-ish here)
                 print request.POST.get(form_name)
                 if si.is_boolean:
                     if 'True' == request.POST.get(form_name): 
@@ -99,12 +103,19 @@ def detail(request, survey_id):
                                 option='True')
                     else:
                         c = Choice( surveyItem=si, option = 'False')
-
                 else:                    
                     c = Choice( surveyItem=si, choice= request.POST.get(form_name))
                 c.save()
-    return render_to_response("phorms/detail.html",{'survey':s,'surveyitem':si_lst },context_instance=RequestContext(request))
+            print "getting here"
+            all_surveys = Survey.objects.all()
+            return render_to_response("phorms/list.html", {'surveys': all_surveys},
+                                      context_instance=RequestContext(request))
 
+
+            list_form(request)
+            
+    return render_to_response("phorms/detail.html",{'survey':s,'surveyitem':si_lst },
+                              context_instance=RequestContext(request))
 
 # Take Survey URL and send email 
 def send_email_helper(survey_url, email_address):
